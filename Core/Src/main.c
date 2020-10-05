@@ -32,6 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define ARTIFICIAL_LOAD
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -90,6 +91,12 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  uint32_t delay_load = 1;
+
+#ifdef ARTIFICIAL_LOAD
+  uint32_t cntr_debounce = 1;
+#endif
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -99,6 +106,21 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+
+	  // READ BUTTON
+
+	  // WRITE LINE
+
+	  // COMPARE CNTR
+
+	  // INCREMENT DEBOUNCE COUNTER
+
+	  // LOAD
+#ifdef ARTIFICIAL_LOAD
+	  HAL_Delay(delay_load);
+#endif
+
   }
   /* USER CODE END 3 */
 }
@@ -197,6 +219,12 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, COM_LINE_OUT_Pin|USR_OUT_B_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(USR_OUT_A_GPIO_Port, USR_OUT_A_Pin, GPIO_PIN_SET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
@@ -204,6 +232,26 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : COM_LINE_IN_Pin */
+  GPIO_InitStruct.Pin = COM_LINE_IN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(COM_LINE_IN_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : COM_LINE_OUT_Pin */
+  GPIO_InitStruct.Pin = COM_LINE_OUT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(COM_LINE_OUT_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : USR_OUT_A_Pin USR_OUT_B_Pin */
+  GPIO_InitStruct.Pin = USR_OUT_A_Pin|USR_OUT_B_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LD2_Pin */
   GPIO_InitStruct.Pin = LD2_Pin;
