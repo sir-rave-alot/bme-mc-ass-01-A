@@ -32,7 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define ARTIFICIAL_LOAD
+//#define ARTIFICIAL_LOAD
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -91,10 +91,15 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  GPIO_PinState state_b1_logic = GPIO_PIN_RESET;
+  GPIO_PinState state_b1_dynamic = GPIO_PIN_RESET;
   uint32_t delay_load = 1;
 
 #ifdef ARTIFICIAL_LOAD
   uint32_t cntr_debounce = 1;
+  volatile uint32_t cntr_delay = 10;
+#else
+
 #endif
 
   /* USER CODE END 2 */
@@ -107,18 +112,25 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-
 	  // READ BUTTON
+	  //state_b1_dynamic = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
 
 	  // WRITE LINE
+	  //HAL_GPIO_WritePin(COM_LINE_OUT_GPIO_Port, COM_LINE_OUT_Pin, state_b1_dynamic);
+	  //HAL_GPIO_TogglePin(COM_LINE_OUT_GPIO_Port, COM_LINE_OUT_Pin);
+
+	  HAL_GPIO_TogglePin(USR_OUT_A_GPIO_Port, USR_OUT_A_Pin);
 
 	  // COMPARE CNTR
+
 
 	  // INCREMENT DEBOUNCE COUNTER
 
 	  // LOAD
 #ifdef ARTIFICIAL_LOAD
-	  HAL_Delay(delay_load);
+	  //HAL_Delay(delay_load);
+	  for(uint32_t i = 0; i < cntr_delay; ++i)
+	  {}
 #endif
 
   }
