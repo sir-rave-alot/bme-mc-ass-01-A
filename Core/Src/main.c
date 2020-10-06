@@ -93,11 +93,9 @@ int main(void)
 
   GPIO_PinState state_b1_logic = GPIO_PIN_RESET;
   GPIO_PinState state_b1_dynamic = GPIO_PIN_RESET;
-  uint32_t delay_load = 1;
 
 #ifdef ARTIFICIAL_LOAD
-  uint32_t cntr_debounce = 1;
-  volatile uint32_t cntr_delay = 10;
+  volatile uint32_t cmp_delay = 10;
 #else
 
 #endif
@@ -128,8 +126,7 @@ int main(void)
 
 	  // LOAD
 #ifdef ARTIFICIAL_LOAD
-	  //HAL_Delay(delay_load);
-	  for(uint32_t i = 0; i < cntr_delay; ++i)
+	  for(uint32_t i = 0; i < cmp_delay; ++i)
 	  {}
 #endif
 
