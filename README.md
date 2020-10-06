@@ -17,5 +17,11 @@
 - main.c line 35:  `#define ARTIFICIAL_LOAD`   
 *comment this out to fully  get rid of busy waiting*
 
-- main.c around line 98: `volatile uint32_t cmp_delay = 10;`  
+- main.c line 36: `#define IS_OPENDRAIN`  
+*comment this out to use direct communication line*  
+Opendrain : Pin PC1 as output  
+Direct : Pin PC2 as output
+
+
+- main.c around line 99: `volatile uint32_t cmp_delay = 10;`  
 *Adjust busy waiting compare value*

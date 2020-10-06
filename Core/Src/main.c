@@ -33,6 +33,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 //#define ARTIFICIAL_LOAD
+#define IS_OPENDRAIN
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -91,7 +92,7 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  GPIO_PinState state_b1_logic = GPIO_PIN_RESET;
+  //GPIO_PinState state_b1_logic = GPIO_PIN_RESET;
   GPIO_PinState state_b1_dynamic = GPIO_PIN_RESET;
 
 #ifdef ARTIFICIAL_LOAD
@@ -111,14 +112,14 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 	  // READ BUTTON
-	  //state_b1_dynamic = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
+	  state_b1_dynamic = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
 
 	  // WRITE LINE
-	  //HAL_GPIO_WritePin(COM_LINE_OUT_GPIO_Port, COM_LINE_OUT_Pin, state_b1_dynamic);
-	  //HAL_GPIO_TogglePin(COM_LINE_OUT_GPIO_Port, COM_LINE_OUT_Pin);
-
-	  HAL_GPIO_TogglePin(USR_OUT_A_GPIO_Port, USR_OUT_A_Pin);
-
+#ifdef IS_OPENDRAIN
+	  HAL_GPIO_WritePin(COM_LINE_OUT_GPIO_Port, COM_LINE_OUT_Pin, state_b1_dynamic);
+#else
+	  HAL_GPIO_WritePin(USR_OUT_A_GPIO_Port, USR_OUT_A_Pin,state_b1_dynamic);
+#endif
 	  // COMPARE CNTR
 
 
