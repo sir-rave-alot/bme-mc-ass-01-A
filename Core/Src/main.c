@@ -98,6 +98,7 @@ int main(void)
 #ifdef ARTIFICIAL_LOAD
   volatile uint32_t cmp_delay = 10;
 #else
+  volatile uint32_t cmp_pw = 1000;
 
 #endif
 
@@ -116,19 +117,25 @@ int main(void)
 
 	  // WRITE LINE
 #ifdef IS_OPENDRAIN
-	  HAL_GPIO_WritePin(COM_LINE_OUT_GPIO_Port, COM_LINE_OUT_Pin, state_b1_dynamic);
+	  if(state_b1_dynamic)
+	  {
+		  HAL_GPIO_WritePin(COM_LINE_OUT_GPIO_Port, COM_LINE_OUT_Pin, GPIO_PIN_SET);
+		  for(uint32_t i = 0; i < cmp_pw; ++i){}
+		  HAL_GPIO_WritePin(COM_LINE_OUT_GPIO_Port, COM_LINE_OUT_Pin, GPIO_PIN_RESET);
+	  }
+
 #else
-	  HAL_GPIO_WritePin(USR_OUT_A_GPIO_Port, USR_OUT_A_Pin,state_b1_dynamic);
+	  if(state_b1_dynamic)
+	  	  {
+		  	  HAL_GPIO_WritePin(USR_OUT_A_GPIO_Port, USR_OUT_A_Pin,GPIO_PIN_SET);
+	  		  for(uint32_t i = 0; i < cmp_pw; ++i){}
+		  	  HAL_GPIO_WritePin(USR_OUT_A_GPIO_Port, USR_OUT_A_Pin,GPIO_PIN_SET);
+	  	  }
 #endif
-	  // COMPARE CNTR
-
-
-	  // INCREMENT DEBOUNCE COUNTER
 
 	  // LOAD
 #ifdef ARTIFICIAL_LOAD
-	  for(uint32_t i = 0; i < cmp_delay; ++i)
-	  {}
+	  for(uint32_t i = 0; i < cmp_delay; ++i){}
 #endif
 
   }

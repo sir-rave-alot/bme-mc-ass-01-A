@@ -11,7 +11,7 @@
 | PC3        | output    | push / pull | USR_OUT_B    | generic                |
 | PC13       | output    | Interrupt   | B1           | Onboard push button    |
 
-# Pre compile settings
+## Pre compile settings
 
 
 - main.c line 35:  `#define ARTIFICIAL_LOAD`   
@@ -25,3 +25,14 @@ Direct : Pin PC2 as output
 
 - main.c around line 99: `volatile uint32_t cmp_delay = 10;`  
 *Adjust busy waiting compare value*
+
+- main.c around line 101: `volatile uint32_t cmp_pw = 1000;`  
+Adjust busy waiting pulse width
+
+## Delay calculation
+With the *current* clock settings, a delay (in seconds) generated with a for loop, can be calculated using the following linear model:
+
+```
+Fitted Model : t_delay = a + b*[cmp]
+a = 2.137458e-07 and b= 1.547727e-07 
+```
